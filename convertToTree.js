@@ -26,14 +26,14 @@ function innerRoots(branches, rootArray, index, mode, detectedID) {
         for (let j = 0; j < index; j++) {
 
             let k = 0;
-            let unk = false;
+            let branchHasChild = false;
             let innerIndex = 1;
 
             for (let i = 0; i < branches.length; i++) {
                 if (rootArray[j][0] !== null) {
                     if (rootArray[j][0] === branches[i].parentID && !mode) {
                         k++;
-                        unk = true;
+                        branchHasChild = true;
                         rootArray[j][k] = [branches[i].id, []];
                         detectedID.push(branches[i].id);
                     }
@@ -41,12 +41,12 @@ function innerRoots(branches, rootArray, index, mode, detectedID) {
 
                 if (rootArray[j] === branches[i].parentID && mode) {
                     k++;
-                    unk = true;
+                    branchHasChild = true;
                     rootArray[j + innerIndex] = [branches[i].id, []];
                     detectedID.push(branches[i].id);
                 }
 
-                if (unk) {
+                if (branchHasChild) {
 
                     detectedID = Array.from(new Set(detectedID));
                     for (let s = 0; s < branches.length; s++) {
@@ -63,7 +63,7 @@ function innerRoots(branches, rootArray, index, mode, detectedID) {
                         }
                     }
                     innerIndex++;
-                    unk = false;
+                    branchHasChild = false;
                 }
             }
         }
